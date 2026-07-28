@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Job Application Tracker</title>
+</head>
+<body>
+
+  <h1>Job Application Tracker</h1>
+
+  <table border="1" id="app-table">
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Role</th>
+        <th>Location</th>
+        <th>Status</th>
+        <th>Date Applied</th>
+      </tr>
+    </thead>
+    <tbody id="app-table-body"></tbody>
+  </table>
+
+  <script>
+    // ask the API for all applications
+    fetch("http://127.0.0.1:8000/applications")
+      .then(response => response.json())     // turn the response into usable data
+      .then(data => {
+        const tbody = document.getElementById("app-table-body");
+        data.forEach(app => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${app.company}</td>
+            <td>${app.role}</td>
+            <td>${app.location ?? ""}</td>
+            <td>${app.status}</td>
+            <td>${app.date_applied}</td>
+          `;
+          tbody.appendChild(row);  // add the row to the table
+        });
+      });
+  </script>
+
+</body>
+</html>
